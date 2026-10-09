@@ -33,7 +33,6 @@ int main() {
 		mostrarMenu();
 		scanf("%d",	&OPC);
 		limpiarBuffer();  
-		system("cls");
 		
 		switch(OPC){
 		case 0:
