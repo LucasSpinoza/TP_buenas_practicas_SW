@@ -77,7 +77,7 @@ int main() {
 }//main
 
 /*	Muestro todas las opciones para la insercion y mostrado de datos	*/
-void mostrarMenu() {
+void mostrarMenu(void) {
 	printf("\n--- Sistema de Tanques ---\n");
 	printf("1. Agregar Tanques\n");
 	printf("2. Mostrar Tanques con Menor Nivel de Agua\n");
@@ -149,7 +149,7 @@ void Lectura(Monitoreo *Tanque, int T){
 }//Lectura
 	
 /*	Se busca mostrar los 2 Tanques con menor nivel de Agua	*/
-void mostrarMenorNivel(Monitoreo *Tanque,	int T){
+void mostrarMenorNivel(const Monitoreo *Tanque,	int T){
 	int m1 = 0, m2 = 1;
 	int i,t;
 
@@ -193,7 +193,7 @@ void mostrarMenorNivel(Monitoreo *Tanque,	int T){
 }//mostrarMenorNivel
 
 /*	Se usa para vaciar el buffer de entrada del teclado después de leer datos con scanf		*/
-void limpiarBuffer(){
+void limpiarBuffer(void){
 	int c;
 	while ((c = getchar()) != EOF && c != '\n');
 }//limpiarBuffer
