@@ -53,7 +53,7 @@ int main() {
 			Lectura(Tanques,	cantidad);
 			break;
 		case 2:
-
+			/*	Muestro todos los 2 Tanques con menor Nivel de Agua	*/
 			mostrarMenorNivel(Tanques,	cantidad);
 			break;
 		default:
@@ -83,7 +83,7 @@ void mostrarMenu() {
 void Lectura(Monitoreo *Tanque, int T){
 	char otroSector[MAX_CARACTER];
 	char otroTanque[MAX_CARACTER];
-	int i,L;
+	int i,longitudCadena;
 
 	if(Tanque == NULL){
 		printf("Error: puntero de tanques NULL.\n");
@@ -99,9 +99,9 @@ void Lectura(Monitoreo *Tanque, int T){
 		if (otroSector == NULL) {
 			otroSector[0] = '\0';
 		} else {
-			L = strlen(otroSector);
-			if (L > 0 && otroSector[L-1] == '\n'){
-				otroSector[L-1] = '\0';
+			longitudCadena = strlen(otroSector);
+			if (longitudCadena > 0 && otroSector[longitudCadena-1] == '\n'){
+				otroSector[longitudCadena-1] = '\0';
 			} //if
 		} //if-else
 
@@ -116,9 +116,9 @@ void Lectura(Monitoreo *Tanque, int T){
 		if (otroTanque == NULL) {
 			otroTanque[0] = '\0';
 		} else {
-			L = strlen(otroTanque);
-			if (L > 0 && otroTanque[L-1] == '\n'){
-				otroTanque[L-1] = '\0';
+			longitudCadena = strlen(otroTanque);
+			if (longitudCadena > 0 && otroTanque[longitudCadena - 1] == '\n'){
+				otroTanque[longitudCadena - 1] = '\0';
 			} //if
 		} //if-else
 		
