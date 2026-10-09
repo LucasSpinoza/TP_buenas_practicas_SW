@@ -20,11 +20,7 @@ int main() {
 	Monitoreo *Tanques = NULL;
 	printf("\n\n\t\t---Monitoreo de Tanques---\n\n");
 	
-	//printf("Ingrese cantidad de Tanques: "); ERROR MIO
 	do{
-		/*if(TAM <0){
-		printf("Ingrese de Nuevo: ");   ERROR
-	}*/
 		printf("Ingrese cantidad de Tanques: ");
 		scanf("%d",&TAM);
 		limpiarBuffer(); /* consumir el '\n' que deja scanf */
@@ -33,7 +29,7 @@ int main() {
 	do{
 		mostrarMenu();
 		scanf("%d",&OPC);
-		limpiarBuffer();  /* consumir el '\n' que deja scanf */
+		limpiarBuffer();  
 		system("cls");
 		switch(OPC){
 		case 0:
@@ -43,7 +39,7 @@ int main() {
 			Tanques = (Monitoreo *) realloc(Tanques, TAM * sizeof(Monitoreo));
 			if (Tanques == NULL) {
 				printf("Error: No se pudo asignar memoria para la cantidad de tanques.\n");
-				return 0; 	// Si falla, retornamos el valor viejo sin cambiar nada
+				return 0; 	
 			}
 			Lectura(Tanques,TAM);
 			break;
@@ -74,38 +70,14 @@ void Lectura(Monitoreo *Tanque, int T){
 	char otroSector[51];
 	char otroTanque[51];
 	int i,L;
-	/*if(Tanque !=NULL){
-	printf("Ya se cargo todos los datos");
-	}*/
+
 	if(Tanque == NULL){
 		printf("Error: puntero de tanques NULL.\n");
 		return;
 	}
-	//Error con respecto a reasignar memoria al puntero, me convenia hacerlo antes
-	/*Monitoreo *temporal = (Monitoreo *) realloc(Tanque, T * sizeof(Monitoreo));
-	if (temporal == NULL) {
-	printf("Error: No se pudo asignar memoria para el nuevo jugador.\n");
-	exit(1); 	// Si falla, retornamos el valor viejo sin cambiar nada
-	}
 	
-	Tanque = temporal; */ 
 	for(i=0;i<T;i++){
-		/*printf("\nIngrese el Sector (hasta 50 caracteres): ");
-		fgets(otroSector, 51, stdin);
-		//limpiarBuffer();
-		otroSector[strlen(otroSector)-1]='\0';
-		strcpy(Tanque[i].Sector, otroSector);
-		limpiarBuffer();
-		//printf("Nombre:  %-25s",Tanque[i].Sector);
-		printf("Sector: %s\n",Tanque[i].Sector );
 		
-		
-		printf("\nIngrese el Nombre del Tanque (hasta 50 caracteres): ");
-		fgets(otroTanque, 51, stdin);
-		//limpiarBuffer();
-		otroTanque[strlen(otroTanque)-1]='\0';
-		strcpy(Tanque[i].name_tanque, otroTanque);
-		limpiarBuffer();*/
 		printf("\nSector %d(hasta 50 caracteres): ",i);
 		fgets(otroSector, sizeof(otroSector), stdin);
 		if (otroSector == NULL) {
@@ -178,14 +150,6 @@ void Lectura(Monitoreo *Tanque, int T){
 		printf("Dos tanques con menor nivel:\n");
 		printf("1) Sector: %s | Nombre: %s | Nivel: %d%%\n", Tanque[m1].Sector, Tanque[m1].name_tanque, Tanque[m1].nivel);
 		printf("2) Sector: %s | Nombre: %s | Nivel: %d%%\n", Tanque[m2].Sector, Tanque[m2].name_tanque, Tanque[m2].nivel);
-		//ERROR en el for, no se debia usar doble for
-		/*for(i=0;i<T;i++){
-		for(j=i+1;j<T;j++){
-		if(Tanque[i].nivel <= Tanque[j].nivel){
-		minimoNivel = Tanque[i];
-		}
-		}
-		}*/ 
 		
 	}
 		void limpiarBuffer(){
