@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #define MAX_CARACTER 51
+#define NIVEL_MIN 1
+#define NIVEL_MAX 100
 
 /*	Estructura para el Monitoreo de Tanques	 */
 typedef struct {
@@ -11,10 +13,10 @@ typedef struct {
 }Monitoreo;
 
 /*	Prototipos	*/
-void mostrarMenu();
+void mostrarMenu(void);
 void Lectura(Monitoreo *Tanque,	 int T);
-void mostrarMenorNivel(Monitoreo *Tanque,	int T); 
-void limpiarBuffer();
+void mostrarMenorNivel(const Monitoreo *Tanque,	int T); 
+void limpiarBuffer(void);
 
 int main() {
 	int cantidad = 0;
@@ -90,7 +92,7 @@ void mostrarMenu() {
 void Lectura(Monitoreo *Tanque, int T){
 	char otroSector[MAX_CARACTER];
 	char otroTanque[MAX_CARACTER];
-	int i,longitudCadena;
+	int i,	longitudCadena;
 
 	if(Tanque == NULL){
 		printf("Error: puntero de tanques NULL.\n");
@@ -100,16 +102,16 @@ void Lectura(Monitoreo *Tanque, int T){
 	for(i = 0; i < T; i++){
 		
 		/*	Ingresar Sector	*/
-		printf("\nSector %d(hasta %d caracteres): ",	i,	MAX_CARACTER);
-		fgets(otroSector, sizeof(otroSector), stdin);
-
-		if (otroSector == NULL) {
+		printf("\nSector %d(hasta %d caracteres): ", i + 1,	MAX_CARACTER - 1);
+		if (fgets(otroSector, sizeof(otroSector), stdin) == NULL) {
 			otroSector[0] = '\0';
 		} else {
 			longitudCadena = strlen(otroSector);
-			if (longitudCadena > 0 && otroSector[longitudCadena-1] == '\n'){
-				otroSector[longitudCadena-1] = '\0';
-			} //if
+			if (longitudCadena > 0 && otroSector[longitudCadena - 1] == '\n'){
+				otroSector[longitudCadena - 1] = '\0';
+			} else {
+				limpiarBuffer();  
+			} //if-else
 		} //if-else
 
 		/*	Cargado de Sector en estructura Monitoreo	*/
@@ -118,15 +120,15 @@ void Lectura(Monitoreo *Tanque, int T){
 		
 		/*	Ingresar Nombre del Tanque	*/
 		printf("\nNombre %d (hasta %d caracteres): ",	i,	MAX_CARACTER);
-		fgets(otroTanque, sizeof(otroTanque), stdin);
-
-		if (otroTanque == NULL) {
+		if (fgets(otroTanque, sizeof(otroTanque), stdin) == NULL) {
 			otroTanque[0] = '\0';
 		} else {
 			longitudCadena = strlen(otroTanque);
 			if (longitudCadena > 0 && otroTanque[longitudCadena - 1] == '\n'){
 				otroTanque[longitudCadena - 1] = '\0';
-			} //if
+			} else {
+				limpiarBuffer();
+			} //if-else
 		} //if-else
 		
 		/*	Cargado de Nombre del Tanque en estructura Monitoreo	*/
@@ -135,11 +137,13 @@ void Lectura(Monitoreo *Tanque, int T){
 		
 		/*	Ingresar Nivel del Agua para cada Tanque	*/
 		do{
-			printf("\nIngrese el Nivel de Agua (1%% - 100%%): ");
-			scanf("%d",&Tanque[i].nivel);
+			printf("\nIngrese el Nivel de Agua (%d%% - %d%%): ", NIVEL_MIN, NIVEL_MAX);
+			if (scanf("%d", &Tanque[i].nivel) != 1) {
+				Tanque[i].nivel = 0;   
+			} //if
 			limpiarBuffer();
 			
-		} while(Tanque[i].nivel < 1 || Tanque[i].nivel >100); //do-while
+		} while(Tanque[i].nivel < NIVEL_MIN || Tanque[i].nivel > NIVEL_MAX); //do-while
 
 	} //for
 }//Lectura
