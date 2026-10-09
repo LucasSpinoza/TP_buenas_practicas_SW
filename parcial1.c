@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#define MAX_CARACTER 51
 
 typedef struct {
-	char Sector[51];
-	char name_tanque[51];
+	char Sector[MAX_CARACTER];
+	char name_tanque[MAX_CARACTER];
 	int nivel;
 }Monitoreo;
 
@@ -67,8 +68,8 @@ void mostrarMenu() {
 	return;
 }
 void Lectura(Monitoreo *Tanque, int T){
-	char otroSector[51];
-	char otroTanque[51];
+	char otroSector[MAX_CARACTER];
+	char otroTanque[MAX_CARACTER];
 	int i,L;
 
 	if(Tanque == NULL){
@@ -93,7 +94,7 @@ void Lectura(Monitoreo *Tanque, int T){
 		
 		printf("Sector: %s\n", Tanque[i].Sector);  /* imprime el sector para verificar */
 		
-		printf("\nNombre del Tanque %d (hasta 50 caracteres): ",i);
+		printf("\nNombre del Tanque %d (hasta %d caracteres): ",	i,	MAX_CARACTER);
 		fgets(otroTanque, sizeof(otroTanque), stdin);
 		if (otroTanque == NULL) {
 			otroTanque[0] = '\0';
