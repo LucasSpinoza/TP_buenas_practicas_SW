@@ -141,6 +141,11 @@ void mostrarMenorNivel(Monitoreo *Tanque,	int T){
 	int m1 = 0, m2 = 1;
 	int i,t;
 
+	if (Tanque == NULL || T == 0) {
+    printf("No hay tanques cargados.\n");
+    return;
+	} //if
+
 	if (T == 0) { 
 		printf("No hay tanques cargados.\n"); 
 		return; 
