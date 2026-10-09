@@ -3,19 +3,21 @@
 #include <string.h>
 #define MAX_CARACTER 51
 
+/*	Estructura para el Monitoreo de Tanques	 */
 typedef struct {
 	char Sector[MAX_CARACTER];
 	char name_tanque[MAX_CARACTER];
 	int nivel;
 }Monitoreo;
 
+/*	Prototipos	*/
 void mostrarMenu();
-void Lectura(Monitoreo *,int );
-void mostrarMenorNivel(Monitoreo *,int); 
+void Lectura(Monitoreo *Tanque,	 int T);
+void mostrarMenorNivel(Monitoreo *Tanque,	int T); 
 void limpiarBuffer();
 
 int main() {
-	int TAM=0;
+	int cantidad=0;
 	int OPC;
 	Monitoreo *Tanques = NULL;
 
@@ -23,13 +25,13 @@ int main() {
 	
 	do{
 		printf("Ingrese cantidad de Tanques: ");
-		scanf("%d",&TAM);
+		scanf("%d",	&cantidad);
 		limpiarBuffer(); 
-	} while(TAM <= 0); //do-while
+	} while(cantidad <= 0); //do-while
 	
 	do{
 		mostrarMenu();
-		scanf("%d",&OPC);
+		scanf("%d",	&OPC);
 		limpiarBuffer();  
 		system("cls");
 		
@@ -39,19 +41,20 @@ int main() {
 			printf("Saliendo del programa.\n");
 			break;
 		case 1:
-
-			Tanques = (Monitoreo *) realloc(Tanques, TAM * sizeof(Monitoreo));
+			/*	Reasigno memoria para todos los tanques a cargar	*/
+			Tanques = (Monitoreo *) realloc(Tanques, cantidad * sizeof(Monitoreo));
 
 			if (Tanques == NULL) {
-				printf("Error: No se pudo asignar memoria para la cantidad de tanques.\n");
+				printf("Error: No se pudo reasignar memoria.\n");
 				return 0; 	
 			} //if
 
-			Lectura(Tanques,TAM);
+			/*	Leo todos los datos	actuales	*/
+			Lectura(Tanques,	cantidad);
 			break;
 		case 2:
 
-			mostrarMenorNivel(Tanques,TAM);
+			mostrarMenorNivel(Tanques,	cantidad);
 			break;
 		default:
 
@@ -64,6 +67,7 @@ int main() {
 	free(Tanques);
 }//main
 
+/*	Muestro todas las opciones para la insercion y mostrado de datos	*/
 void mostrarMenu() {
 	printf("\n--- Sistema de Tanques ---\n");
 	printf("1. Agregar Tanques\n");
@@ -75,6 +79,7 @@ void mostrarMenu() {
 	return;
 }//mostrarMenu
 
+/*	Se leen todos los datos de cada Tanque ->Sector, Nombre y Nivel de Agua Almacenada en %	*/
 void Lectura(Monitoreo *Tanque, int T){
 	char otroSector[MAX_CARACTER];
 	char otroTanque[MAX_CARACTER];
@@ -85,8 +90,9 @@ void Lectura(Monitoreo *Tanque, int T){
 		return;
 	}	//if
 	
-	for(i=0;i<T;i++){
+	for(i = 0; i < T; i++){
 		
+		/*	Ingresar Sector	*/
 		printf("\nSector %d(hasta %d caracteres): ",	i,	MAX_CARACTER);
 		fgets(otroSector, sizeof(otroSector), stdin);
 
@@ -97,13 +103,14 @@ void Lectura(Monitoreo *Tanque, int T){
 			if (L > 0 && otroSector[L-1] == '\n'){
 				otroSector[L-1] = '\0';
 			} //if
-
 		} //if-else
 
+		/*	Cargado de Sector en estructura Monitoreo	*/
 		strncpy(Tanque[i].Sector, otroSector,sizeof(Tanque[i].Sector)-1);
 		Tanque[i].Sector[sizeof(Tanque[i].Sector)-1] = '\0';
 		
-		printf("\nNombre del Tanque %d (hasta %d caracteres): ",	i,	MAX_CARACTER);
+		/*	Ingresar Nombre del Tanque	*/
+		printf("\nNombre %d (hasta %d caracteres): ",	i,	MAX_CARACTER);
 		fgets(otroTanque, sizeof(otroTanque), stdin);
 
 		if (otroTanque == NULL) {
@@ -113,12 +120,13 @@ void Lectura(Monitoreo *Tanque, int T){
 			if (L > 0 && otroTanque[L-1] == '\n'){
 				otroTanque[L-1] = '\0';
 			} //if
-
 		} //if-else
 		
+		/*	Cargado de Nombre del Tanque en estructura Monitoreo	*/
 		strncpy(Tanque[i].name_tanque, otroTanque,sizeof(Tanque[i].name_tanque)-1);
 		Tanque[i].name_tanque[sizeof(Tanque[i].name_tanque)-1] = '\0';
 		
+		/*	Ingresar Nivel del Agua para cada Tanque	*/
 		do{
 			printf("\nIngrese el Nivel de Agua (1%% - 100%%): ");
 			scanf("%d",&Tanque[i].nivel);
@@ -129,6 +137,7 @@ void Lectura(Monitoreo *Tanque, int T){
 	} //for
 }//Lectura
 	
+/*	Se busca mostrar los 2 Tanques con menor nivel de Agua	*/
 void mostrarMenorNivel(Monitoreo *Tanque,	int T){
 	int m1 = 0, m2 = 1;
 	int i,t;
@@ -167,6 +176,7 @@ void mostrarMenorNivel(Monitoreo *Tanque,	int T){
 	
 }//mostrarMenorNivel
 
+/*	Se usa para vaciar el buffer de entrada del teclado después de leer datos con scanf		*/
 void limpiarBuffer(){
 	int c;
 	while ((c = getchar()) != EOF && c != '\n');
