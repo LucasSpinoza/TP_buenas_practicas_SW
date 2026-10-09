@@ -17,21 +17,26 @@ void mostrarMenorNivel(Monitoreo *Tanque,	int T);
 void limpiarBuffer();
 
 int main() {
-	int cantidad=0;
-	int OPC;
+	int cantidad = 0;
+	int OPC = -1;
 	Monitoreo *Tanques = NULL;
+	Monitoreo *tmp = NULL;
 
 	printf("\n\n\t\t---Monitoreo de Tanques---\n\n");
 	
 	do{
 		printf("Ingrese cantidad de Tanques: ");
-		scanf("%d",	&cantidad);
+		if (scanf("%d", &cantidad) != 1) {
+			cantidad = 0;
+		} //if
 		limpiarBuffer(); 
 	} while(cantidad <= 0); //do-while
 	
 	do{
 		mostrarMenu();
-		scanf("%d",	&OPC);
+		if (scanf("%d", &OPC) != 1) {
+			OPC = -1;
+		} //if
 		limpiarBuffer();  
 		
 		switch(OPC){
@@ -40,13 +45,14 @@ int main() {
 			printf("Saliendo del programa.\n");
 			break;
 		case 1:
-			/*	Reasigno memoria para todos los tanques a cargar	*/
-			Tanques = (Monitoreo *) realloc(Tanques, cantidad * sizeof(Monitoreo));
-
-			if (Tanques == NULL) {
+			/*	 Creo una copia temporal de Tanques		*/
+			tmp = (Monitoreo *) realloc(Tanques, cantidad * sizeof(Monitoreo));
+			if (tmp == NULL) {
 				printf("Error: No se pudo reasignar memoria.\n");
-				return 0; 	
-			} //if
+				free(Tanques);
+				return EXIT_FAILURE;
+			}
+			Tanques = tmp;
 
 			/*	Leo todos los datos	actuales	*/
 			Lectura(Tanques,	cantidad);
@@ -64,6 +70,8 @@ int main() {
 	} while(OPC != 0);  //do-while
 
 	free(Tanques);
+	Tanques = NULL;
+	return 0;
 }//main
 
 /*	Muestro todas las opciones para la insercion y mostrado de datos	*/
